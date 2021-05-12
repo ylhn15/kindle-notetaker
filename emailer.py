@@ -39,7 +39,7 @@ def get_email():
                 email_parser = email.parser.BytesFeedParser(policy=policy.default)
                 email_parser.feed(response_part[1])
                 msg = email_parser.close()
-                if 'no-reply@amazon.com' in msg['from'] and 'Zitat' in msg['subject']:
+                if 'no-reply@amazon.com' in msg['from']:
                     if msg.is_multipart():
                         for payload in msg.get_payload():
                             # if payload.is_multipart(): ...
