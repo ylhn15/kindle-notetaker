@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
 import imaplib
 import email
 import email.parser
+from email.header import decode_header
+from email import policy
 import re
 import json
 import sqlite3
+import quopri
 import CredentialManager
 
 DATABASE = 'kindle_quotes.db'
@@ -23,7 +27,7 @@ def create_database():
     con.close()
 
 
-def write_quote_to_file(quote, filename):
+def write_quote_to_db(quote):
     con = connect_to_database(DATABASE)
     extracted_quote = re.findall(r'"([^"]*)"', quote)
     if len(extracted_quote) > 0:
@@ -59,15 +63,15 @@ def get_email():
         tmp, data = imap.fetch(num, '(RFC822)')
         for response_part in data:
             if isinstance(response_part, tuple):
-                email_parser = email.parser.BytesFeedParser()
+                email_parser = email.parser.BytesFeedParser(policy=policy.default)
                 email_parser.feed(response_part[1])
                 msg = email_parser.close()
                 if 'no-reply@amazon.com' in msg['from'] and 'Zitat' in msg['subject']:
                     if msg.is_multipart():
                         for payload in msg.get_payload():
                             # if payload.is_multipart(): ...
-                            quote = (payload.get_payload())
-                write_quote_to_file(quote, "test")
+                            quote = payload.get_payload()
+                write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
     imap.close()
 
 
