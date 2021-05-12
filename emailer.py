@@ -2,41 +2,14 @@
 import imaplib
 import email
 import email.parser
-from email.header import decode_header
 from email import policy
-import re
 import json
-import sqlite3
 import quopri
+import time
 import CredentialManager
+import sqliteManager
 
 DATABASE = 'kindle_quotes.db'
-
-
-def connect_to_database(name):
-    return sqlite3.connect(name)
-
-
-def create_database():
-    con = connect_to_database(DATABASE)
-    cur = con.cursor()
-
-    cur.execute('''CREATE TABLE IF NOT EXISTS quotes
-                     (quote text, source text, PRIMARY KEY("quote")) ''')
-    con.commit()
-    con.close()
-
-
-def write_quote_to_db(quote):
-    con = connect_to_database(DATABASE)
-    extracted_quote = re.findall(r'"([^"]*)"', quote)
-    if len(extracted_quote) > 0:
-        print("Writing quote to database")
-        con.execute("INSERT OR IGNORE INTO quotes VALUES(?, ?)",
-                    (extracted_quote[0],
-                     extracted_quote[1]))
-        con.commit()
-        con.close()
 
 
 def get_email():
@@ -71,13 +44,17 @@ def get_email():
                         for payload in msg.get_payload():
                             # if payload.is_multipart(): ...
                             quote = payload.get_payload()
-                write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
+                sqliteManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
+                imap.store(num, "+FLAGS", "\\Deleted")
+                imap.expunge()
     imap.close()
 
 
 def main():
-    create_database()
-    get_email()
+    sqliteManager.create_database()
+    while True:
+        get_email()
+        time.sleep(60)
 
 
 if __name__ == "__main__":
