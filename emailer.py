@@ -24,12 +24,8 @@ def get_email():
     imap_user = username
     imap_pass = password
     imap = imaplib.IMAP4_SSL(imap_host)
-
-# login to server
     imap.login(imap_user, imap_pass)
-
     imap.select('Inbox')
-
     quote = ''
     tmp, data = imap.search(None, 'ALL')
     for num in data[0].split():
