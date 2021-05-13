@@ -10,6 +10,9 @@ def get_firebase_config():
         with open('firebaseConfig.json') as config:
             return json.load(config)
 
+    else:
+        print("Firebase Config not found, please set up firebaseConfig.json.")
+
 
 config = get_firebase_config()
 firebase = pyrebase.initialize_app(config)
