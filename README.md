@@ -1,6 +1,11 @@
 # kindle-notetaker
 Save your favourite kindle quotes by sharing it via e-mail. 
 
+## Dependencies
+
+### Pyrebase
+Install pyrebase by running `pip3 install pyrebase`
+
 ## Configuration
 
 ### E-Mail Credentials
