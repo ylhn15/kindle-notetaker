@@ -4,7 +4,7 @@ Save your favourite kindle quotes by sharing it via e-mail.
 ## Dependencies
 
 ### Pyrebase
-Install pyrebase by running `pip3 install pyrebase`
+Install [Pyrebase](https://github.com/thisbejim/Pyrebase) by running `pip3 install pyrebase`
 
 ## Configuration
 
