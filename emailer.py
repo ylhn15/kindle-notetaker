@@ -8,6 +8,7 @@ import quopri
 import time
 import CredentialManager
 import sqliteManager
+import firebaseManager
 
 DATABASE = 'kindle_quotes.db'
 
@@ -40,7 +41,8 @@ def get_email():
                         for payload in msg.get_payload():
                             # if payload.is_multipart(): ...
                             quote = payload.get_payload()
-                sqliteManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
+                firebaseManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
+                # sqliteManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
                 imap.store(num, "+FLAGS", "\\Deleted")
                 imap.expunge()
     imap.close()
