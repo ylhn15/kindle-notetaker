@@ -16,7 +16,7 @@ All of these are stored locally as a *plain text file*! Use at your own risk.
 ### Firebase
 
 Create a file called firebaseConfig.json and add the following:
-```
+```json
 {
     "apiKey": "your-firebase-api-key",
     "authDomain": "your-project-auth-domain",
