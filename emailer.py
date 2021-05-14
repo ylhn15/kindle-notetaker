@@ -40,6 +40,8 @@ def get_email():
                     if msg.is_multipart():
                         for payload in msg.get_payload():
                             quote = payload.get_payload()
+                    else:
+                        quote = msg.get_payload()
                 # sqliteManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
                 firebaseManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
                 imap.store(num, '+FLAGS', '\\Deleted')
