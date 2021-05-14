@@ -36,14 +36,13 @@ def get_email():
                 email_parser = email.parser.BytesFeedParser(policy=policy.default)
                 email_parser.feed(response_part[1])
                 msg = email_parser.close()
-                if 'no-reply@amazon.com' in msg['from']:
+                if 'no-reply@amazon.com' in msg['from'] or 'kindle-quote' in msg['subject']:
                     if msg.is_multipart():
                         for payload in msg.get_payload():
-                            # if payload.is_multipart(): ...
                             quote = payload.get_payload()
                 # sqliteManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
                 firebaseManager.write_quote_to_db(quopri.decodestring(quote).decode('utf-8'))
-                imap.store(num, "+FLAGS", "\\Deleted")
+                imap.store(num, '+FLAGS', '\\Deleted')
                 imap.expunge()
     imap.close()
 
@@ -55,5 +54,5 @@ def main():
         time.sleep(60)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
