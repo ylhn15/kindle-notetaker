@@ -22,6 +22,7 @@ DATABASE = firebase.database()
 
 def write_quote_to_db(data):
     extracted_quote = re.findall(r'"([^"]*)"', data)
+    print(extracted_quote)
     if len(extracted_quote) > 0:
         data_dict = {"timestamp": str(datetime.datetime.now()),
                      "quote": extracted_quote[0],
