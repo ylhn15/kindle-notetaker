@@ -1,5 +1,12 @@
-# kindle-notetaker
-Save your favourite kindle quotes by sharing it via e-mail. 
+# Quotetaker
+E-Mail yourself your favourite quotes. Primarily written to automatically save quotes shared with the Kindle E-Mail sharing, this tool can also be used to save self-written quotes.
+
+## Format
+The format depends on the format of the automatically written e-mails from the Kindle.
+You can send your own quotes or notes in the following format:
+```
+"This is the quote" - "and this is the source"
+```
 
 ## Dependencies
 
